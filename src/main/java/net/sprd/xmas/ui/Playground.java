@@ -2,8 +2,6 @@ package net.sprd.xmas.ui;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Image;
@@ -13,13 +11,19 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 
+import net.sprd.xmas.repositories.ImageRepository;
+
 @Route("xmas")
 public class Playground extends VerticalLayout {
 
+	private final ImageRepository imageRepository;
+	
 	private Integer number1;
 	private Integer number2;
 	
-	public Playground() throws IOException {
+	public Playground(ImageRepository imageRepository) throws IOException {
+		
+		this.imageRepository = imageRepository;
 
 		this.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 		this.setHeightFull();
@@ -87,12 +91,8 @@ public class Playground extends VerticalLayout {
 	
 	private Image readImage(String imageName) throws IOException {
 		
-		String imagePath = this.getClass().getClassLoader().getResource(imageName).getFile();
-		if(imagePath.startsWith("/")) {
-			imagePath = imagePath.substring(1);
-		}
-		
-		byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
+		ImageEntity imageEntity = this.imageRepository.findById(imageName).get();
+		byte[] imageBytes = imageEntity.getContent();
 		StreamResource resource = new StreamResource(imageName, () -> new ByteArrayInputStream(imageBytes));
 		Image image = new Image(resource, "error");
 		
