@@ -9,15 +9,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import net.sprd.xmas.repositories.ImageRepository;
-import net.sprd.xmas.ui.ImageEntity;
+import net.sprd.xmas.repositories.ChallengeRepository;
 
 @Component
 @Profile("import")
 public class ImageInitiator implements CommandLineRunner {
 
 	@Autowired
-	private ImageRepository imageRepository;
+	private ChallengeRepository challengeRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -34,6 +33,6 @@ public class ImageInitiator implements CommandLineRunner {
 		}
 		byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
 
-		this.imageRepository.save(new ImageEntity().setId(imageName).setContent(imageBytes));
+		this.challengeRepository.save(new ChallengeEntity().setId(imageName).setFraudSuspect(imageBytes));
 	}
 }

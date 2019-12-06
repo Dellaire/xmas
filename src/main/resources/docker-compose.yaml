@@ -1,0 +1,11 @@
+version: '3'
+services:
+
+    mongodb_xmas:
+        image: mongo:latest
+        ports:
+            - "27017:27017"
+    xmas:
+        image: xmas:latest
+        ports:
+            - "8080:8080"

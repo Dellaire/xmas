@@ -11,41 +11,42 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.StreamResource;
 
-import net.sprd.xmas.repositories.ImageRepository;
+import net.sprd.xmas.logic.ChallengeEntity;
+import net.sprd.xmas.repositories.ChallengeRepository;
 
 @Route("xmas")
 public class Playground extends VerticalLayout {
 
-	private final ImageRepository imageRepository;
+	private final ChallengeRepository challengeRepository;
 	
-	private Integer number1;
-	private Integer number2;
+	private ChallengeEntity challengeEntity;
+	private Double guess;
 	
-	public Playground(ImageRepository imageRepository) throws IOException {
+	public Playground(ChallengeRepository challengeRepository) throws IOException {
 		
-		this.imageRepository = imageRepository;
+		this.challengeRepository = challengeRepository;
 
 		this.setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 		this.setHeightFull();
 		
-		this.displayImage1();
+		this.displayFraudSuspect();
 	}
 	
-	private void displayImage1() {
+	private void displayFraudSuspect() {
 		
 		Label label = new Label("");
 		label.setHeight("25%");
 		
-		TextField textField = new TextField("Number 1");
+		TextField textField = new TextField("Bonity Score");
 		
-		Button button = new Button("Next");
-		button.addClickListener(event -> this.number1 = Integer.parseInt(textField.getValue()));
-		button.addClickListener(event -> this.displayImage2());
+		Button button = new Button("Submit");
+		button.addClickListener(event -> this.guess = Double.parseDouble(textField.getValue()));
+		button.addClickListener(event -> this.displayBonityScore());
 		
 		this.removeAll();
 		this.add(label);
 		try {
-			this.add(this.readImage("image1.jpg"));
+			this.add(this.readChallenge("image1.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -53,47 +54,25 @@ public class Playground extends VerticalLayout {
 		this.add(button);
 	}
 	
-	private void displayImage2() {
-		
-		Label label = new Label("");
-		label.setHeight("25%");
-		
-		TextField textField = new TextField("Number 2");
-		
-		Button button = new Button("Finish");
-		button.addClickListener(event -> this.number2 = Integer.parseInt(textField.getValue()));
-		button.addClickListener(event -> this.displayResult());
-		
-		this.removeAll();
-		this.add(label);
-		try {
-			this.add(this.readImage("image2.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		this.add(textField);
-		this.add(button);
-	}
-	
-	private void displayResult() {
+	private void displayBonityScore() {
 		
 		Label label = new Label("");
 		label.setHeight("30%");
 		
 		Button button = new Button("Restart");
-		button.addClickListener(event -> this.displayImage1());
+		button.addClickListener(event -> this.displayFraudSuspect());
 		
 		this.removeAll();
 		this.add(label);
-		this.add(new Label(this.number1 + this.number2 + ""));
+		this.add(new Label(this.guess));
 		this.add(button);
 	}
 	
-	private Image readImage(String imageName) throws IOException {
+	private Image readChallenge(String challengeName) throws IOException {
 		
-		ImageEntity imageEntity = this.imageRepository.findById(imageName).get();
-		byte[] imageBytes = imageEntity.getContent();
-		StreamResource resource = new StreamResource(imageName, () -> new ByteArrayInputStream(imageBytes));
+		ChallengeEntity imageEntity = this.challengeRepository.findById(challengeName).get();
+		byte[] imageBytes = imageEntity.getFraudSuspect();
+		StreamResource resource = new StreamResource(challengeName, () -> new ByteArrayInputStream(imageBytes));
 		Image image = new Image(resource, "error");
 		
 		return image;
