@@ -21,18 +21,18 @@ public class ImageInitiator implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		this.saveImage("image1.jpg");
-		this.saveImage("image2.jpg");
+		this.saveImage("1","c1Fraud.jpg","c1Solvency.jpg");
+		this.saveImage("2","c2Fraud.jpg","c2Solvency.jpg");
 	}
 
-	private void saveImage(String imageName) throws IOException {
+	private void saveImage(String challengeId, String fraudSuspectFileName, String solvencyScoreFileName) throws IOException {
 
-		String imagePath = this.getClass().getClassLoader().getResource(imageName).getFile();
+		String imagePath = this.getClass().getClassLoader().getResource(challengeId).getFile();
 		if (imagePath.startsWith("/")) {
 			imagePath = imagePath.substring(1);
 		}
 		byte[] imageBytes = Files.readAllBytes(Paths.get(imagePath));
 
-		this.challengeRepository.save(new ChallengeEntity().setId(imageName).setFraudSuspect(imageBytes));
+		this.challengeRepository.save(new Challenge().setId(challengeId).setFraudSuspectImage(imageBytes));
 	}
 }
