@@ -33,7 +33,8 @@ public class Playground extends VerticalLayout {
 
     private void displayFraudSuspectImage() {
 
-        this.challenge = this.challengeRepository.findById(new Random().nextInt(15) + "").get();
+        String challengeId = new Random().nextInt(new Long(this.challengeRepository.count()).intValue()) + "";
+        this.challenge = this.challengeRepository.findById(challengeId).get();
 
         Label label = new Label("");
         label.setHeight("25%");
