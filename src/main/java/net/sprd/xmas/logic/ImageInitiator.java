@@ -21,10 +21,10 @@ public class ImageInitiator implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        this.saveImage("image1.jpg", "image2.jpg");
+        this.saveImage("image1.jpg", "image2.jpg", 2.8);
     }
 
-    private void saveImage(String fraudSuspectFileName, String solvencyScoreFileName) {
+    private void saveImage(String fraudSuspectFileName, String solvencyScoreFileName, Double solvencyScore) {
 
         String challengeId = new Random().nextInt(new Long(this.challengeRepository.count() + 1).intValue()) + "";
 
@@ -32,7 +32,7 @@ public class ImageInitiator implements CommandLineRunner {
         byte[] solvencyScoreImage = this.loadImage(solvencyScoreFileName);
 
         this.challengeRepository.save(new Challenge().setId(challengeId).setFraudSuspectImage(fraudSuspectImage)
-                .setSolvencyScoreImage(solvencyScoreImage).setSolvencyScore(2.8));
+                .setSolvencyScoreImage(solvencyScoreImage).setSolvencyScore(solvencyScore));
     }
 
     private byte[] loadImage(String pathToImage) {
