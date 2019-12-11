@@ -63,7 +63,7 @@ public class Challenge {
 
 	public Image getSolvencyScoreAsImage() {
 
-		StreamResource resource = new StreamResource(this.id, () -> new ByteArrayInputStream(this.fraudSuspectImage));
+		StreamResource resource = new StreamResource(this.id, () -> new ByteArrayInputStream(this.solvencyScoreImage));
 		Image image = new Image(resource, "error");
 
 		return image;
