@@ -3,6 +3,9 @@ package net.sprd.xmas.logic;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+
 @Document
 public class Score {
 
@@ -10,7 +13,8 @@ public class Score {
     private String id;
 
     private String name;
-    private Double error;
+    private BigDecimal error;
+    private ZonedDateTime dateCreated;
 
     public String getId() {
         return id;
@@ -29,12 +33,21 @@ public class Score {
         return this;
     }
 
-    public Double getError() {
+    public BigDecimal getError() {
         return error;
     }
 
-    public Score setError(Double error) {
+    public Score setError(BigDecimal error) {
         this.error = error;
+        return this;
+    }
+
+    public ZonedDateTime getDateCreated() {
+        return dateCreated;
+    }
+
+    public Score setDateCreated(ZonedDateTime dateCreated) {
+        this.dateCreated = dateCreated;
         return this;
     }
 }
