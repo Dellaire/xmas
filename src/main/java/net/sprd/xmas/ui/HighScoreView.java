@@ -28,6 +28,7 @@ public class HighScoreView extends VerticalLayout {
         Grid<Score> scoreGrid = new Grid<>(Score.class);
         scoreGrid.setItems(this.scoreRepository.findAllByOrderByErrorAsc());
         scoreGrid.setColumns("name", "error", "dateCreated");
+        scoreGrid.setHeightByRows(true);
 
         this.callbackBroker.register(str -> {
             this.ui.getPage().reload();

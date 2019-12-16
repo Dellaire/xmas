@@ -2,7 +2,6 @@ package net.sprd.xmas.ui;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -62,6 +61,7 @@ public class GameView extends VerticalLayout {
         introductionText3.getStyle().set("font-size", "25px");
 
         TextField playerNameInput = new TextField("Spreadshirt username");
+        playerNameInput.setAutofocus(true);
 
         Button button = new Button("Start");
         button.addClickShortcut(Key.ENTER);
@@ -109,6 +109,7 @@ public class GameView extends VerticalLayout {
         count.getStyle().set("font-size", "25px");
 
         TextField guessInput = new TextField("Solvency Score");
+        guessInput.setAutofocus(true);
 
         Button button = new Button("Submit");
         button.addClickShortcut(Key.ENTER);
